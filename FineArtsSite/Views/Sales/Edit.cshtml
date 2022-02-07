@@ -1,0 +1,85 @@
+﻿@model FineArtsSite.Models.Invoice
+
+@{
+    ViewBag.Title = "Edit Item";
+}
+<hr />
+
+<h2>Edit Item</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="col-md-offset-2 col-md-10">
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.recID, htmlAttributes: new { @class = "control-label" })
+            <div>
+                @Model.recID
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PiecesSold, htmlAttributes: new { @class = "control-label" })
+            <div>
+                @Model.PiecesSold
+                <p style="visibility:hidden;">@Html.EditorFor(model => model.PiecesSold, new { htmlAttributes = new { @class = "form-control" } })</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TotalCost, htmlAttributes: new { @class = "control-label" })
+            <div>
+                @Model.TotalCost
+                <p style="visibility:hidden;">@Html.EditorFor(model => model.TotalCost, new { htmlAttributes = new { @class = "form-control" } })</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PaymentType, htmlAttributes: new { @class = "control-label" })
+            @if (Model.PaymentType == "cash")
+            {
+                <div>
+                    <input type="radio" name="PaymentType" value="cash" checked="checked"> Cash
+                    <input type="radio" name="PaymentType" value="credit"> Credit
+                    <input type="radio" name="PaymentType" value="check"> Check
+                </div>
+            }
+            else if (Model.PaymentType == "credit")
+            {
+                <div>
+                    <input type="radio" name="PaymentType" value="cash"> Cash
+                    <input type="radio" name="PaymentType" value="credit" checked="checked"> Credit
+                    <input type="radio" name="PaymentType" value="check"> Check
+                </div>
+            }
+            else if (Model.PaymentType == "check")
+            {
+                <div>
+                    <input type="radio" name="PaymentType" value="cash"> Cash
+                    <input type="radio" name="PaymentType" value="credit"> Credit
+                    <input type="radio" name="PaymentType" value="check" checked="checked"> Check
+                </div>
+            }
+            else
+            {
+                <div>
+                    <input type="radio" name="PaymentType" value="cash"> Cash
+                    <input type="radio" name="PaymentType" value="credit"> Credit
+                    <input type="radio" name="PaymentType" value="check"> Check
+                </div>
+            }
+        </div>
+
+
+        <div class="form-group">
+            <div>
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+            <br />
+            <div>
+                @Html.ActionLink("Back to List", "Invoices", new { controller = "Sales" }, new { @class = "btn btn-secondary" })
+            </div>
+        </div>
+    </div>
+}

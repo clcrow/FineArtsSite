@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            @Html.ActionLink("Parkview Fine Arts Festival", "Index", "Home", null, new { @class = "navbar-brand" })
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Inventory
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            @Html.ActionLink("View/Edit Inventory", "Index", "FineArtsInventory", null, new { @class = "nav-link" })
+                            @Html.ActionLink("Add Inventory", "Create", "FineArtsInventory", null, new { @class = "nav-link" })
+                            @Html.ActionLink("Load Inventory", "Load", "FineArtsInventory", null, new { @class = "nav-link" })
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Sales", "Index", "Sales", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Invoices", "Invoices", "Sales", null, new { @class = "nav-link" })
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item" style="text-align:right;">
+                        @{ViewBag.cartAmount = "Cart  " + ViewBag.cartAmount + "  "; }
+                        <a class="nav-link" asp-controller="Sales" asp-action="Cart">@ViewBag.cartAmount</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div>
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

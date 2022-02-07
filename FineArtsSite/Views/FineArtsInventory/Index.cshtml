@@ -1,0 +1,68 @@
+﻿@using System.Data
+@model FineArtsSite.Models.InventorySearchModel
+
+@{
+    ViewBag.Title = "ViewInv";
+}
+<hr />
+<h2>Inventory</h2>
+<p style="margin-top:2%">
+    @Html.ActionLink("Create New", "Create", new { controller = "FineArtsInventory" }, new { @class = "btn btn-primary" })
+</p>
+<form asp-action="ArtistSearch2" asp-controller="FineArtsInventory">
+    <label asp-for="ArtistName"></label>
+    @Html.DropDownList("ArtistName", Model.ArtistName, new { style = "height:30px;" })
+    <input class="btn btn-primary" type="submit" />
+</form>
+<table class="table">
+    <tr style="background-color:aliceblue">
+        <th>
+            Record ID
+        </th>
+        <th>
+            Artist
+        </th>
+        <th>
+            Title
+        </th>
+        <th>
+            ItemNum
+        </th>
+        <th>
+            Cost
+        </th>
+        <th>
+            Sold
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (DataRow dr in Model.results.Rows)
+    {
+    <tr>
+        <td style="padding-top: 1.5%;">
+            @dr["recID"]
+        </td>
+        <td style="padding-top: 1.5%;">
+            @dr["ArtistName"]
+        </td>
+        <td style="padding-top: 1.5%;">
+            @dr["Title"]
+        </td>
+        <td style="padding-top: 1.5%;">
+            @dr["ItemNum"]
+        </td>
+        <td style="padding-top: 1.5%;">
+            @dr["Cost"]
+        </td>
+        <td style="padding-top: 1.5%;">
+            @dr["Sold"]
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = dr["recID"] }, new { @class = "btn btn-secondary" })
+            @Html.ActionLink("Delete", "Delete", new { id = dr["recID"] }, new { @class = "btn btn-secondary" })
+        </td>
+    </tr>
+    }
+
+</table>

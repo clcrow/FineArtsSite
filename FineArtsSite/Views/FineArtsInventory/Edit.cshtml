@@ -1,0 +1,73 @@
+﻿@model FineArtsSite.Models.Inventory
+
+@{
+    ViewBag.Title = "Edit Item";
+}
+<hr />
+
+<h2>Edit Item</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="col-md-offset-2 col-md-10">
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.recID, htmlAttributes: new { @class = "control-label" })
+            <div>
+                @Model.recID
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ArtistName, htmlAttributes: new { @class = "control-label" })
+            <div>
+                @Html.EditorFor(model => model.ArtistName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ArtistName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label" })
+            <div>
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ItemNum, htmlAttributes: new { @class = "control-label" })
+            <div>
+                @Html.EditorFor(model => model.ItemNum, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ItemNum, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label" })
+            <div>
+                @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Sold, htmlAttributes: new { @class = "control-label" })
+            <div>
+                @Html.EditorFor(model => model.Sold, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Sold, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div>
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+            <br />
+            <div>
+                @Html.ActionLink("Back to List", "Index", new { controller = "FineArtsInventory" }, new { @class = "btn btn-secondary" })
+            </div>
+        </div>
+    </div>
+}

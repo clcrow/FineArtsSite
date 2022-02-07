@@ -1,0 +1,61 @@
+﻿@using System.Data
+@model FineArtsSite.Models.InventorySearchModel
+
+@{
+    ViewBag.Title = "ViewInv";
+}
+<hr />
+<h2>Sales Page</h2>
+<form asp-action="ArtistSearch2" asp-controller="Sales">
+    <label asp-for="ArtistName"></label>
+    @Html.DropDownList("ArtistName", Model.ArtistName, new { style = "height:30px;" })
+    <input class="btn btn-primary" type="submit" />
+</form>
+<table class="table">
+    <tr style="background-color:aliceblue">
+        <th>
+            Record ID
+        </th>
+        <th>
+            Artist
+        </th>
+        <th>
+            Title
+        </th>
+        <th>
+            ItemNum
+        </th>
+        <th>
+            Cost
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (DataRow dr in Model.results.Rows)
+    {
+        if (dr.ItemArray[0] != null)
+        {
+    <tr>
+        <td style="padding-top: 1.5%;">
+            @dr["RecID"]
+        </td>
+        <td style="padding-top: 1.5%;">
+            @dr["ArtistName"]
+        </td>
+        <td style="padding-top: 1.5%;">
+            @dr["Title"]
+        </td>
+        <td style="padding-top: 1.5%;">
+            @dr["ItemNum"]
+        </td>
+        <td style="padding-top: 1.5%;">
+            @dr["Cost"]
+        </td>
+        <td>
+            @Html.ActionLink("Add To Cart", "Buy", new { id = dr["recID"] }, new { @class = "btn btn-secondary" })
+        </td>
+    </tr>
+        }
+    }
+
+</table>

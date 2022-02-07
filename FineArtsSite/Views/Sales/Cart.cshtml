@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+@model FineArtsSite.Models.CartFormModel
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Cart</title>
+</head>
+<body>
+
+    <h3>Cart Page</h3>
+    <form asp-action="Purchase" asp-controller="Sales">
+        <table class="table">
+            <tr style="background-color:aliceblue">
+                <th>Option</th>
+                <th>Artist</th>
+                <th>Title</th>
+                <th>Item Number</th>
+                <th>Sub Total</th>
+            </tr>
+            @if (Model.cart != null)
+            {
+                @foreach (var item in Model.cart)
+                {
+                    <tr>
+                        <td><a class="btn btn-secondary" asp-controller="cart" asp-action="remove" asp-route-id="@item.cartInv.recID">Remove</a></td>
+                        <td style="padding-top: 1%;">@item.cartInv.ArtistName</td>
+                        <td style="padding-top: 1%;">@item.cartInv.Title</td>
+                        <td style="padding-top: 1%;">@item.cartInv.ItemNum</td>
+                        <td style="padding-top: 1%;">$@(item.cartInv.Cost)</td>
+                    </tr>
+                }
+                <tr>
+                    <td align="right" colspan="4">Sum</td>
+                    <td>
+                        $@Model.total
+                    </td>
+                </tr>
+            }
+        </table>
+        <p style="text-align:center;">
+            <label>Payment Type: </label>
+            <input type="radio" name="PaymentType" value="cash" checked="checked"> Cash
+            <input type="radio" name="PaymentType" value="credit"> Credit
+            <input type="radio" name="PaymentType" value="check"> Check
+        </p>
+        <br>
+        <p style="text-align:center;">
+            <input class="btn btn-primary" type="submit" />
+        </p>
+    </form>
+    <br>
+    <p style="text-align:center;">
+        <a asp-controller="sales" asp-action="index" class="btn btn-primary">Continue Shopping</a>
+    </p>
+
+</body>
+</html>
