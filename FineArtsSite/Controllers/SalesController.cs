@@ -189,24 +189,28 @@ namespace FineArtsSite.Controllers
         public IActionResult Purchase(CartFormModel form)
         {
             string invoiceNums = "";
-            string conn = Database.GetConnection();
-
-            var cart = Session.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
-            float Sum = cart.Sum(item => item.cartInv.Cost);
-            string sumString = Math.Round(Sum, 2).ToString("0.00");
-
-            foreach (var item in cart)
+            if (form.PaymentType != null)
             {
-                invoiceNums += item.cartInv.recID + " ";
+                string conn = Database.GetConnection();
+
+                var cart = Session.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+                float Sum = cart.Sum(item => item.cartInv.Cost);
+                string sumString = Math.Round(Sum, 2).ToString("0.00");
+
+                foreach (var item in cart)
+                {
+                    invoiceNums += item.cartInv.recID + " ";
+                }
+
+                invoiceNums.Trim();
+
+                Database.addInvoice(invoiceNums, sumString, form.PaymentType, conn);
+
+                HttpContext.Session.Clear();
+                return RedirectToAction("Index");
             }
-
-            invoiceNums.Trim();
-
-            Database.addInvoice(invoiceNums, sumString, form.PaymentType, conn);
-
-            HttpContext.Session.Clear();
-
-            return RedirectToAction("Index");
+            else TempData["PaymentTypeError"] = "Please Select a Payment Type in Order to Proceed With Transaction";
+            return RedirectToAction("Cart");
         }
 
         public IActionResult Invoices()
@@ -249,6 +253,82 @@ namespace FineArtsSite.Controllers
             inv.recID = id;
             Database.updateInvoiceDB(inv, id, conn);
             return RedirectToAction("Invoices");
+        }
+
+        [HttpGet]
+        public ActionResult custReports()
+        {
+            string conn = Database.GetConnection();
+            DataTable artList = Database.PullInventoryUniqArtist(conn);
+            ReportsSearchModel model = new ReportsSearchModel();
+            model.ArtistName = Database.getArtists(artList, "");
+            return View(model);
+        }
+
+        public ActionResult ArtistSearch2Reports(InventorySearchModel form)
+        {
+            double total = 0;
+            float cost,custTake,churchTake;
+            
+            ReportsSearchModel model = new ReportsSearchModel();
+            model._artistName = Request.Form["ArtistName"].ToString();
+
+            string conn = Database.GetConnection();
+
+            DataTable artList = Database.PullInventoryUniqArtist(conn);
+            model.ArtistName = Database.getArtists(artList, model._artistName);
+
+            DataTable results = Database.GetArtistsSoldWork(conn, model._artistName);
+
+            foreach(DataRow row in results.Rows)
+            {
+                float.TryParse(row.ItemArray[4].ToString(), out cost);
+                total += cost;
+            }
+
+            custTake = (float)(total * .75);
+            model.custTake = "$" + Math.Round(custTake, 2, MidpointRounding.AwayFromZero).ToString("0.00");
+            churchTake = (float)(total * .25);
+            model.churchTake = "$" + (Math.Floor(churchTake * 100) / 100).ToString("0.00");
+            model.total = "$" + (custTake + churchTake).ToString("0.00");
+            return View("custreports",model);
+        }
+
+        public ActionResult payReport()
+        {
+            double cash = 0;
+            double credit = 0;
+            double check = 0;
+            double amount;
+            string conn = Database.GetConnection();
+            InvoiceReport model = new InvoiceReport();
+            DataTable invoices = Database.pullInvoices(conn);
+
+            foreach(DataRow row in invoices.Rows)
+            {
+                if(row.ItemArray[3].ToString() == "cash")
+                {
+                    double.TryParse(row.ItemArray[2].ToString(), out amount);
+                    cash += amount;
+                }
+                else if (row.ItemArray[3].ToString() == "credit")
+                {
+                    double.TryParse(row.ItemArray[2].ToString(), out amount);
+                    credit += amount;
+                }
+                else if (row.ItemArray[3].ToString() == "check")
+                {
+                    double.TryParse(row.ItemArray[2].ToString(), out amount);
+                    check += amount;
+                }
+            }
+
+            model.cashAmount = "$" + cash.ToString("0.00");
+            model.checAmount = "$" + check.ToString("0.00");
+            model.credAmount = "$" + credit.ToString("0.00");
+            model.total = "$" + (cash + credit + check).ToString("0.00");
+
+            return View(model);
         }
     }
 }

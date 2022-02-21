@@ -38,8 +38,10 @@
             }
         </table>
         <p style="text-align:center;">
+            <label style="color:red;">@TempData["PaymentTypeError"] </label>
+            <br />
             <label>Payment Type: </label>
-            <input type="radio" name="PaymentType" value="cash" checked="checked"> Cash
+            <input type="radio" name="PaymentType" value="cash"> Cash
             <input type="radio" name="PaymentType" value="credit"> Credit
             <input type="radio" name="PaymentType" value="check"> Check
         </p>

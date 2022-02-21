@@ -141,11 +141,24 @@ namespace FineArtsSite.HelperMethods
 
         public static DataTable PullInventorybyArtist(string conn, string artist)
         {
-            Inventory model = new Inventory();
             SqlConnection sqlconn = new SqlConnection(conn);
             // Get SQL results
             DataTable dt = new DataTable();
             string whereQuery = "WHERE ArtistName = '" + artist + "' AND Sold = 'N'";
+            string SelectInventoryFinal = SelectInventory.Replace("[WHERE]", whereQuery);
+            SqlCommand sc = new SqlCommand(SelectInventoryFinal, sqlconn);
+            SqlDataAdapter sda = new SqlDataAdapter(sc);
+            sda.Fill(dt);
+
+            return dt;
+        }
+
+        public static DataTable PullInventorybyArtistInv(string conn, string artist)
+        {
+            SqlConnection sqlconn = new SqlConnection(conn);
+            // Get SQL results
+            DataTable dt = new DataTable();
+            string whereQuery = "WHERE ArtistName = '" + artist + "'";
             string SelectInventoryFinal = SelectInventory.Replace("[WHERE]", whereQuery);
             SqlCommand sc = new SqlCommand(SelectInventoryFinal, sqlconn);
             SqlDataAdapter sda = new SqlDataAdapter(sc);
@@ -325,6 +338,20 @@ namespace FineArtsSite.HelperMethods
             sc.ExecuteScalar();
 
             sqlconn.Close();
+        }
+
+        public static DataTable GetArtistsSoldWork(string conn, string name)
+        {
+            SqlConnection sqlconn = new SqlConnection(conn);
+            // Get SQL results
+            DataTable dt = new DataTable();
+            string whereQuery = "WHERE ArtistName = '" + name + "' AND Sold = 'Y'";
+            string SelectInventoryFinal = SelectInventory.Replace("[WHERE]", whereQuery);
+            SqlCommand sc = new SqlCommand(SelectInventoryFinal, sqlconn);
+            SqlDataAdapter sda = new SqlDataAdapter(sc);
+            sda.Fill(dt);
+
+            return dt;
         }
     }
 }

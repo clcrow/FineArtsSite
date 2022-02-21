@@ -24,7 +24,7 @@ namespace FineArtsSite.Controllers
                 ViewBag.cartAmount = cart.Count;
             }
             string conn = Database.GetConnection();
-            DataTable results = Database.PullInventorybyArtist(conn, "Anderson Vera");
+            DataTable results = Database.PullInventorybyArtistInv(conn, "Anderson Vera");
             DataTable artList = Database.PullInventoryUniqArtist(conn);
             InventorySearchModel model = new InventorySearchModel();
             model.ArtistName = Database.getArtists(artList, "Anderson Vera");
@@ -183,29 +183,9 @@ namespace FineArtsSite.Controllers
             DataTable artList = Database.PullInventoryUniqArtist(conn);
             model.ArtistName = Database.getArtists(artList, model._artistName);
 
-            DataTable results = Database.PullInventorybyArtist(conn, model._artistName);
+            DataTable results = Database.PullInventorybyArtistInv(conn, model._artistName);
 
             var cart = Session.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
-
-            if (cart != null)
-            {
-                ViewBag.cartAmount = cart.Count;
-
-                foreach (var item in cart)
-                {
-                    int i = 0;
-                    foreach (DataRow item2 in results.Rows)
-                    {
-                        if (item2.ItemArray[0].ToString() == item.cartInv.recID.ToString())
-                        {
-                            results.Rows[i].Delete();
-                            results.AcceptChanges();
-                            break;
-                        }
-                        i++;
-                    }
-                }
-            }
 
             model.results = results;
 
@@ -222,7 +202,7 @@ namespace FineArtsSite.Controllers
             DataTable artList = Database.PullInventoryUniqArtist(conn);
             model.ArtistName = Database.getArtists(artList, model._artistName);
 
-            DataTable results = Database.PullInventorybyArtist(conn, model._artistName);
+            DataTable results = Database.PullInventorybyArtistInv(conn, model._artistName);
 
             var cart = Session.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
 

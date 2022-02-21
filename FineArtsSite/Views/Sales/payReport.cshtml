@@ -1,0 +1,29 @@
+﻿@using System.Data
+@model FineArtsSite.Models.InvoiceReport
+
+@{
+    ViewBag.Title = "Payment Type Report";
+}
+    <h2>Payment Type Report</h2>
+    <table class="table">
+        <tr style="background-color:aliceblue">
+            <th>Type</th>
+            <th>Amount</th>
+        </tr>
+        <tr>
+            <td style="padding-top: 1%;">Cash</td>
+            <td style="padding-top: 1%;">@Model.cashAmount</td>
+        </tr>
+        <tr>
+            <td style="padding-top: 1%;">Credit</td>
+            <td style="padding-top: 1%;">@Model.credAmount</td>
+        </tr>
+        <tr>
+            <td style="padding-top: 1%;">Check</td>
+            <td style="padding-top: 1%;">@Model.checAmount</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td align="left">@Model.total</td>
+        </tr>
+    </table>

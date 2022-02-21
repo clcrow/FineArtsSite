@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/print.css" media="print" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
@@ -32,6 +33,15 @@
                     </li>
                     <li class="nav-item">
                         @Html.ActionLink("Invoices", "Invoices", "Sales", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Reports
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            @Html.ActionLink("Customer Reports", "custReports", "Sales", null, new { @class = "nav-link" })
+                            @Html.ActionLink("Invoice Report", "payReport", "Sales", null, new { @class = "nav-link" })
+                        </div>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">

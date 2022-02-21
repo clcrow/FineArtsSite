@@ -1,0 +1,34 @@
+﻿@using System.Data
+@model FineArtsSite.Models.ReportsSearchModel
+
+@{
+    ViewBag.Title = "Customer Reports";
+}
+<hr />
+<form asp-action="ArtistSearch2Reports" asp-controller="Sales" class="DoNotPrint">
+    <label asp-for="ArtistName"></label>
+    @Html.DropDownList("ArtistName", Model.ArtistName, new { style = "height:30px;" })
+    <input class="btn btn-primary" type="submit" />
+</form>
+@if (Model._artistName != null)
+{
+    <h2>Customer Report For @Model._artistName</h2>
+    <table class="table">
+        <tr style="background-color:aliceblue">
+            <th>Type</th>
+            <th>Amount</th>
+        </tr>
+        <tr>
+            <td style="padding-top: 1%;">Artist Take</td>
+            <td style="padding-top: 1%;">@Model.custTake</td>
+        </tr>
+        <tr>
+            <td style="padding-top: 1%;">Church Take</td>
+            <td style="padding-top: 1%;">@Model.churchTake</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td align="left">@Model.total</td>
+        </tr>
+    </table>
+}
