@@ -2,7 +2,7 @@
 @model FineArtsSite.Models.ReportsSearchModel
 
 @{
-    ViewBag.Title = "Customer Reports";
+    ViewBag.Title = "Sales Reports";
 }
 <hr />
 <form asp-action="ArtistSearch2Reports" asp-controller="Sales" class="DoNotPrint">
@@ -12,19 +12,49 @@
 </form>
 @if (Model._artistName != null)
 {
-    <h2>Customer Report For @Model._artistName</h2>
+    <h2>Sales Report For @Model._artistName</h2>
+    <table class="table">
+        <tr style="background-color:aliceblue">
+            <th>Title</th>
+            <th>Item Number</th>
+            <th>Cost</th>
+        </tr>
+        @if (Model.results != null)
+        {
+            @foreach (DataRow item in Model.results.Rows)
+            {
+                <tr>
+                    <td style="padding-top: 1%;">@item.ItemArray[2]</td>
+                    <td style="padding-top: 1%;">@item.ItemArray[3]</td>
+                    @{ 
+                        double cost;
+                        double.TryParse(item.ItemArray[4].ToString(), out cost);
+                        string strCost = cost.ToString("0.00");
+                    <td style="padding-top: 1%;">$@strCost</td>
+                    }
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td align="left">
+                    @Model.total
+                </td>
+            </tr>
+        }
+    </table>
     <table class="table">
         <tr style="background-color:aliceblue">
             <th>Type</th>
             <th>Amount</th>
         </tr>
         <tr>
-            <td style="padding-top: 1%;">Artist Take</td>
-            <td style="padding-top: 1%;">@Model.custTake</td>
+            <td style="padding-top: 1%;">Church(25%)</td>
+            <td style="padding-top: 1%;">@Model.churchTake</td>
         </tr>
         <tr>
-            <td style="padding-top: 1%;">Church Take</td>
-            <td style="padding-top: 1%;">@Model.churchTake</td>
+            <td style="padding-top: 1%;">Artist Net Sales</td>
+            <td style="padding-top: 1%;">@Model.custTake</td>
         </tr>
         <tr>
             <td></td>

@@ -19,5 +19,7 @@ namespace FineArtsSite.Models
         public string churchTake { get; set; }
 
         public string total { get; set; }
+
+        public DataTable results { get; set; }
     }
 }

@@ -268,6 +268,7 @@ namespace FineArtsSite.Controllers
         public ActionResult ArtistSearch2Reports(InventorySearchModel form)
         {
             double total = 0;
+            float test;
             float cost,custTake,churchTake;
             
             ReportsSearchModel model = new ReportsSearchModel();
@@ -286,6 +287,7 @@ namespace FineArtsSite.Controllers
                 total += cost;
             }
 
+            model.results = results;
             custTake = (float)(total * .75);
             model.custTake = "$" + Math.Round(custTake, 2, MidpointRounding.AwayFromZero).ToString("0.00");
             churchTake = (float)(total * .25);
